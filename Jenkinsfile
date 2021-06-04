@@ -1,6 +1,8 @@
 pipeline{
 
-	agent { any }
+	agent {
+        label : docker { image 'maven:lst' }
+    }
 
 
 	stages{
