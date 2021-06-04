@@ -1,12 +1,15 @@
 pipeline{
 
-	agent any
+	agent {
+		docker{image 'maven:3.6.3'}
+	}
 	
 	stages{
 		stage("Build"){
 			steps{
 				script{
 					try {
+					echo "mvn --version: " sh 'mvn --version'
 					sh 'chmod 0775 set-up.sh'
 					sh './set-up.sh'
 					} catch (err) {
