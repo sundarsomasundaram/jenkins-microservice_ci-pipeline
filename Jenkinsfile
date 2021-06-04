@@ -9,10 +9,10 @@ pipeline{
 					try {
 					sh 'chmod 0775 set-up.sh'
 					sh './set-up.sh'
-					echo 'Succeeded!'
 					} catch (err) {
 					echo "Failed: ${err}"
 					} finally {
+					sh 'chmod 0775 set-up.sh'
 					sh './tear-down.sh'
 					}
 					echo 'Printed whether above succeeded or failed.'
