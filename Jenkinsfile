@@ -6,10 +6,9 @@ pipeline{
 		stage("Build"){
 			steps{
 				script{
-					sh chmod 775 'set-up.sh'
-					sh './set-up.sh'
 					try {
-					sh 'might fail'
+					sh 'chmod 0775 set-up.sh'
+					sh './set-up.sh'
 					echo 'Succeeded!'
 					} catch (err) {
 					echo "Failed: ${err}"
