@@ -7,15 +7,15 @@ pipeline{
 			steps{
 				script{
 					sh './set-up.sh'
-    try {
-        sh 'might fail'
-        echo 'Succeeded!'
-    } catch (err) {
-        echo "Failed: ${err}"
-    } finally {
-        sh './tear-down.sh'
-    }
-    echo 'Printed whether above succeeded or failed.'
+					try {
+					sh 'might fail'
+					echo 'Succeeded!'
+					} catch (err) {
+					echo "Failed: ${err}"
+					} finally {
+					sh './tear-down.sh'
+					}
+					echo 'Printed whether above succeeded or failed.'
 				}
 			}
 			post{
@@ -40,6 +40,9 @@ pipeline{
 		}
 		failure{
 			echo "========pipeline execution failed========"
+		}
+		unstable{
+			echo "========pipepline unstable"
 		}
 	}
 }
