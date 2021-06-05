@@ -27,7 +27,7 @@ stage("Compile"){
 
 stage("Test"){
 	steps{
-		sh "mvn test "
+		sh "mvn test"
 	}
 }
 
@@ -39,15 +39,18 @@ stage("Test"){
 
 stage("Package"){
 	steps{
-		sh "mvn package -DskipTests "
+		sh "mvn package -DskipTests"
 	}
 }
+
 stage("docker build image"){
-steps{
-	script{
-		dockerImage =docker.build("sundardockerdevops/currency-exchange-devops-microservice:${evn.BUILD_TAG}")
-	}
+	steps{
+		script{
+			dockerImage =docker.build("sundardockerdevops/currency-exchange-devops-microservice:${evn.BUILD_TAG}")
+		}
 }
+}
+
 stage("push docker image"){
 steps{
 	script{
@@ -84,6 +87,7 @@ steps{
 // }
 // }
 // }
+}
 post{
 		always{
 			cleanWs()
@@ -96,5 +100,5 @@ post{
 			echo "========Build execution failed========"
 		}
 	}
-}
+
 }
