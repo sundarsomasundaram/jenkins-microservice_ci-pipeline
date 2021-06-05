@@ -14,7 +14,6 @@ environment{
 stages{
 stage("Checkout"){
 	steps{
-		cleanup()
 		echo "check out code"
 		}
 }
