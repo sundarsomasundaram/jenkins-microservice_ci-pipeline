@@ -101,7 +101,6 @@ steps{
 post{
 		always{
 			cleanWs()
-			deleteDir() 
 		}
 		success{
 			echo " congratz, successfully executed!!"
