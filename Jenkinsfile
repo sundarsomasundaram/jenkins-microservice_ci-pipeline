@@ -14,6 +14,7 @@ environment{
 stages{
 stage("Checkout"){
 	steps{
+		cleanup()
 		echo "check out code"
 		}
 }
@@ -30,40 +31,63 @@ stage("Test"){
 	}
 }
 
-stage("Integration Test"){
-			steps{
-				sh "mvn failsafe:integration-test failsafe:verify "
-			}
-		}
+// stage("Integration Test"){
+// 			steps{
+// 				sh "mvn failsafe:integration-test failsafe:verify "
+// 			}
+// 		}
 
-stage("Build"){
-steps{
-script{
-	try {
-	echo "mvn  version: "
-	sh 'mvn --version'
-	echo "docker version: " 
-	sh 'docker --version'
-	echo "$PATH"
-	echo "Build Number - $env.BUILD_NUMBER"
-	echo "BUILD_ID - $env.BUILD_ID"
-	echo "JOB_NAME - $env.JOB_NAME"
-	echo "BUILD_TAG - $env.BUILD_TAG"
-	echo "BUILD_URL - $env.BUILD_URL"
-	sh 'chmod 0775 set-up.sh'
-	sh './set-up.sh'
-	} catch (err) {
-	echo "Failed: ${err}"
-	} finally {
-	sh 'chmod 0775 tear-down.sh'
-	sh './tear-down.sh'
+stage("Package"){
+	steps{
+		sh "mvn package -DskipTests "
 	}
-	echo 'Printed whether above succeeded or failed.'
+}
+stage("docker build image"){
+steps{
+	script{
+		dockerImage =docker.build("sundardockerdevops/currency-exchange-devops-microservice:${evn.BUILD_TAG}")
+	}
+}
+stage("push docker image"){
+steps{
+	script{
+		dockerImage =docker.withRegistry('','dockerHub'){
+			dockerImage.push();
+			dockerImage.push('latest');
+		}
+	}
 }
 }
-	post{
+// stage("Build"){
+// steps{
+// script{
+// 	try {
+// 	echo "mvn  version: "
+// 	sh 'mvn --version'
+// 	echo "docker version: " 
+// 	sh 'docker --version'
+// 	echo "$PATH"
+// 	echo "Build Number - $env.BUILD_NUMBER"
+// 	echo "BUILD_ID - $env.BUILD_ID"
+// 	echo "JOB_NAME - $env.JOB_NAME"
+// 	echo "BUILD_TAG - $env.BUILD_TAG"
+// 	echo "BUILD_URL - $env.BUILD_URL"
+// 	sh 'chmod 0775 set-up.sh'
+// 	sh './set-up.sh'
+// 	} catch (err) {
+// 	echo "Failed: ${err}"
+// 	} finally {
+// 	sh 'chmod 0775 tear-down.sh'
+// 	sh './tear-down.sh'
+// 	}
+// 	echo 'Printed whether above succeeded or failed.'
+// }
+// }
+// }
+post{
 		always{
-			echo ":) "
+			cleanWs()
+			deleteDir() 
 		}
 		success{
 			echo " congratz, successfully executed!!"
@@ -72,6 +96,5 @@ script{
 			echo "========Build execution failed========"
 		}
 	}
-}
 }
 }
