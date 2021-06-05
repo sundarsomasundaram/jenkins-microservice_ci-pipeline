@@ -1,9 +1,9 @@
 pipeline{
-// agent { node { label 'node1' } } 
+agent { node { label 'node1' } } 
 	// agent {
     //     label : docker { image 'maven:3.6.3' }
     // }
-	agent any
+	// agent any
 
 environment{
 	dockerHome = tool 'jenkins-docker'
