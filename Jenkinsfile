@@ -6,8 +6,8 @@ pipeline{
 agent any
 
 environment{
-	dockerHome = tools 'jenkins-docker'
-	mavenHome =  tools 'jenkins-maven'
+	dockerHome = tool 'jenkins-docker'
+	mavenHome =  tool 'jenkins-maven'
 	PATH ="$dockerHome/bin:$mavenHome/bin:$PATH"
 }
 
