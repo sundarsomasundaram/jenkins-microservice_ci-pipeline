@@ -1,7 +1,7 @@
 pipeline{
 
 	agent {
-        label : docker { image 'maven:lst' }
+        label : docker { image 'maven:3.6.3' }
     }
 
 
