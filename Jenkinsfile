@@ -16,8 +16,10 @@ environment{
 			steps{
 				script{
 					try {
-					echo "mvn  version: " sh 'mvn --version'
-					echo "docker version: " sh 'docker --version'
+					echo "mvn  version: "
+					sh 'mvn --version'
+					echo "docker version: " 
+					sh 'docker --version'
 					echo "$PATH"
 					echo "Build Number - $env.BUILD_NUMBER"
 					echo "BUILD_ID - $env.BUILD_ID"
