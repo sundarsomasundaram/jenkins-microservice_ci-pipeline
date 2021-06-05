@@ -9,6 +9,7 @@ environment{
 	dockerHome = tool 'jenkins-docker'
 	mavenHome =  tool 'jenkins-maven'
 	PATH ="$dockerHome/bin:$mavenHome/bin:$PATH"
+	 def os = System.properties['os.name'].toLowerCase()
 }
 
 options{
@@ -26,14 +27,22 @@ stage("Checkout"){
 
 
 stage("Compile"){
-			steps{
-				sh "mvn clean compile"
+	steps{
+     script {
+		 echo "OS: ${os}"
+			if (os.contains("linux")) {
+			sh "mvn install" 
+			sh "mvn clean compile"
+			} else {
+			bat "mvn install"
+			bat "mvn clean compile"
 			}
-		}
+	}}
+}
 
 stage("Test"){
 	steps{
-		sh "mvn test"
+		bat "mvn test"
 	}
 }
 
@@ -45,7 +54,7 @@ stage("Test"){
 
 stage("Package"){
 	steps{
-		sh "mvn package -DskipTests"
+		bat "mvn package -DskipTests"
 	}
 }
 
