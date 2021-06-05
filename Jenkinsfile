@@ -29,12 +29,10 @@ stage("Checkout"){
 stage("Compile"){
 	steps{
      script {
-		 echo "OS: ${os}"
+		 	echo "OS: ${os}"
 			if (os.contains("linux")) {
-			sh "mvn install" 
 			sh "mvn clean compile"
 			} else {
-			bat "mvn install"
 			bat "mvn clean compile"
 			}
 	}}
