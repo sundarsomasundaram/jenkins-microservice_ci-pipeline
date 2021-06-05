@@ -10,12 +10,14 @@ environment{
 	mavenHome =  tool 'jenkins-maven'
 	PATH ="$dockerHome/bin:$mavenHome/bin:$PATH"
 }
-deleteDir() 
 
 stages{
 
+
+
 stage("Checkout"){
 	steps{
+		deleteDir() 
 		echo "check out code"
 		}
 }
