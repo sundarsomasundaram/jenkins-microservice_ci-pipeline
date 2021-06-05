@@ -15,7 +15,7 @@ stages{
 
 stage("Checkout"){
 		steps{
-		deleteDir() 
+		//deleteDir() 
 		echo "check out code"
 		}
 	}
